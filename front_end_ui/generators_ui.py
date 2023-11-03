@@ -1,13 +1,13 @@
-from ..langchain_logic import langchain_helper as lch
+from langchain_logic.langchain_helper import generate_pet_name , generate_memes
 import streamlit as st
 
 def template_testing( title : str = "testing" , titles : list = ["testing"]  , function_type : str = "pet_name"):
 
     #set the function acording to the function type
     if function_type == "pet_name":
-        function = lch.generate_pet_name
+        function = generate_pet_name
     elif function_type == "meme":
-        function = lch.generate_memes
+        function = generate_memes
     else:
         raise ValueError("function_type must be pet_name or meme")
     #adding a title
