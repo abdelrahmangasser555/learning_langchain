@@ -1,26 +1,44 @@
-from langchain.llms import OpenAI
-from dotenv import load_dotenv
-from langchain.prompts import PromptTemplate
-from langchain.chains import LLMChain
-from fastapi import FastAPI
-import os
-app = FastAPI()
-load_dotenv()
+import langchain_helper  as lch
+import streamlit as st
 
-@app.get("/")
-def generate_pet_name(color : str = "brown" , pet_type : str = "dog"):
-    llm  =  OpenAI(temperature=0.9)
-    prompt_template_name  = PromptTemplate(
-        input_variables=["color" , "pet_type"],
-        template="here is a {color} and a {pet_type} of a certain pet type geenrate some names for it and add emojies with the name ",
-    )
+def template_testing( title : str = "testing" , titles : list = ["testing"]  , function_type : str = "pet_name"):
 
-    name_chain = LLMChain(llm = llm  , prompt = prompt_template_name )
-    response  = name_chain({"color": color , "pet_type": pet_type})
-    return response
+    #set the function acording to the function type
+    if function_type == "pet_name":
+        function = lch.generate_pet_name
+    elif function_type == "meme":
+        function = lch.generate_memes
+    else:
+        raise ValueError("function_type must be pet_name or meme")
+    #adding a title
+    st.title(title)
 
-if __name__ == "__main__":
-    print(generate_pet_name("yellow" , "dog")["text"])
+    #setting up the inputs
+    if function_type == "pet_name":
+        color = st.text_input("color" , value = "ex : brown")
+        pet_type = st.text_input("pet_type" , value = "ex : dog")
+        # creating a generate button
+        st.button("generate name")
+    elif function_type == "meme":
+        meme_type = st.text_input("meme_type" , value = "ex : funny")
+        # creating a generate button
+        st.button("generate meme")
 
-## how to run
-# uvicorn main:app --reload
+
+    #creating a response only when the button is pressed
+    if st.button == False:
+        if function_type == "pet_name":
+            response = function(color = color , pet_type = pet_type)
+        elif function_type == "meme":
+            response = function(meme_type = meme_type)
+
+        st.write(response["text"])
+
+template_testing( title = "meme generator "  , function_type = "meme")
+st.write("--------------------------------------------------")
+
+template_testing( title = "pet name generator "  , function_type = "pet_name")
+
+st.camera_input()
+#create a random table using steram lit
+
