@@ -1,0 +1,6 @@
+# Ignore virtual environments
+.env
+__venv__/
+.venv/
+.idea/
+
