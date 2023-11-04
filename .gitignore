@@ -1,7 +1,7 @@
 # Ignore virtual environments
 .env
 __venv__/
-.venv/
+venv/*
 .idea/
 langchain_logic/test_back.py
 front_end_ui/test_front.py

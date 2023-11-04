@@ -2,7 +2,6 @@ from langchain.llms import OpenAI
 from dotenv import load_dotenv
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
-from fastapi import FastAPI
 import os
 
 load_dotenv()
