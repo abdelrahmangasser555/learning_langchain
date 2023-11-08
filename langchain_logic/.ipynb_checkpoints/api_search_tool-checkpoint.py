@@ -14,7 +14,7 @@ def langchain_agent():
         input_variables=["structure"],
         template="here is a {structure} generate me a story with emojies with it the story should me more than 30 words",
     )
-    tools = load_tools(["serpapi" , "llm-math"] , llm = llm)
+    tools = load_tools(["serpapi"] , llm = llm)
     agent  = initialize_agent(
         tools = tools,
         agent = AgentType.ZERO_SHOT_REACT_DESCRIPTION ,
