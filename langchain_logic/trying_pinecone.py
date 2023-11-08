@@ -42,7 +42,7 @@ if index_name not in pinecone.list_indexes():
 docsearch = Pinecone.from_documents(docs, embeddings, index_name=index_name)
 
 # if you already have an index, you can load it like this
-# docsearch = Pinecone.from_existing_index(index_name, embeddings)
+docsearch = Pinecone.from_existing_index(index_name, embeddings)
 
 query = "What is the name inside the file ?"
 docs = docsearch.similarity_search(query)
