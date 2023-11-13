@@ -8,7 +8,7 @@ from langchain.agents import initialize_agent , load_tools , AgentType
 
 load_dotenv()
 
-def langchain_agent():
+def langchain_agent(question):
     llm = OpenAI(temperature=0.9)
     prompt_template_structure  = PromptTemplate(
         input_variables=["structure"],
@@ -22,8 +22,5 @@ def langchain_agent():
         verbose = True
     )
     question = input("eneter a question to search the internet ")
-    result  = agent.run(question)
+    result = agent.run(question)
     print(result)
-
-if __name__ == "__main__":
-    langchain_agent()

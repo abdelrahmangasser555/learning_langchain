@@ -3,10 +3,10 @@ import base64
 import requests
 
 # OpenAI API Key
-api_key = "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"
+api_key = "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"
 
 # Function to encode the image
-image_path = "./img_8.png"
+image_path = "./test.jpg"
 def encode_image(image_path):
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode('utf-8')
@@ -28,7 +28,7 @@ payload = {
         "content": [
           {
             "type": "text",
-            "text": "explain this usage page for openai api in details"
+            "text": "answer the question and give me the answer step by step and explain every part of it "
           },
           {
             "type": "image_url",

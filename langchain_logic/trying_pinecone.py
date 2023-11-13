@@ -7,39 +7,42 @@ from langchain.text_splitter import CharacterTextSplitter
 from langchain.chains import LLMChain
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores import Pinecone
-import os
-import getpass
+# import os
+# import getpass
 import pinecone
 
-os.environ["PINECONE_API_KEY"] = getpass.getpass("Pinecone API Key:")
+pinecone.init(
+    api_key="4d11f4e1-f222-4882-a042-3ecba7bf030d",  # find at app.pinecone.io
+    environment="northamerica-northeast1-gcp",  # next to api key in console
+)
 
-os.environ["OPENAI_API_KEY"] = getpass.getpass("OpenAI API Key:")
+# import dotenv
 
-os.environ["PINECONE_ENV"] = getpass.getpass("Pinecone Environment:")
+# dotenv.load_dotenv()
 
+
+
+print("starting...")
 
 loader = TextLoader("./test.txt")
 documents = loader.load()
 text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
 docs = text_splitter.split_documents(documents)
 
+print("splitting documents done")
+
 embeddings = OpenAIEmbeddings()
 
-pinecone.init(
-    api_key=os.getenv("PINECONE_API_KEY"),  # find at app.pinecone.io
-    environment=os.getenv("PINECONE_ENV"),  # next to api key in console
-)
+print("starting initialization...")
+
+
+print("done initialization")
 
 index_name = "langchain-demo"
 
-
-
-# First, check if our index already exists. If it doesn't, we create it
-if index_name not in pinecone.list_indexes():
-    # we create a new index
-    pinecone.create_index(name=index_name, metric="cosine", dimension=1536)
-# The OpenAI embedding model `text-embedding-ada-002 uses 1536 dimensions`
+print("creating index...")
 docsearch = Pinecone.from_documents(docs, embeddings, index_name=index_name)
+print("done")
 
 # if you already have an index, you can load it like this
 docsearch = Pinecone.from_existing_index(index_name, embeddings)
