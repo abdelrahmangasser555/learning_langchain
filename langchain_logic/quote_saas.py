@@ -2,28 +2,55 @@ from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 from dotenv import load_dotenv
+from langchain.agents import AgentType , initialize_agent , load_tools
+from langchain.tools import tool
 from fastapi import FastAPI
+from quotes_array import quotes
+import random
+
 
 app = FastAPI()
 
 load_dotenv()
 
+wisdom_quotes = quotes
 
 @app.get("/")
 def wise_quote_generator(question : str):
     llm = OpenAI(temperature=0)
     quote_prompt_template  = PromptTemplate(
-        input_variables=["structure"],
-        template="you are a wise person who is so smart and wise here is a topic : {structure} from your knowlege about all the wise people like sokratize and so one generate a very wise  generate me a wise quote on this topic do not exceed 20 words and not less than 10 words make it meaningful and full of wisdom here is some examples "
-                 "topic : life quote : life is a journey not a destination "
-                 "topic : love quote : love is a beautiful thing "
-                 "topic : money quote : money is the root of all evil ",
+        input_variables=["topic"],
+        template="generater me a wise and usefull quote inspired by on this topic {topic}"
+
     )
     chain  = LLMChain(llm = llm , prompt = quote_prompt_template )
-    result = chain({"structure": question})
+    result = chain({"topic": question})
     return result["text"]
 
+@app.get("/agent")
+def wise_quote_agent(quote : str = "meaning of life"):
+    wise_quotes_example = quote
+    llm  = OpenAI(temperature = 0.5)
+    load_tools_agent = load_tools(["serpapi"])
+    agent  = initialize_agent(
+        tools=load_tools_agent ,
+        agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION ,
+        verbose = True ,
+        llm = llm
+    )
+    respone = agent.run(f"generate a very meaningfull and wise quote on this topic {quote}")
+    return respone
+
+
+@app.get("/wisdomRandom")
+def wisdom_random():
+    random_quote = random.choice(wisdom_quotes)
+    return random_quote
+
+# command to run
+# uvicorn quote_saas:app --reload
+#complete path for file is
+#
 if __name__ == "__main__":
-    question = input("enter a topic  ")
-    result = wise_quote_generator(question)
-    print(result)
+    for i in range(5):
+        print(wisdom_random() , "\n")
