@@ -34,13 +34,10 @@ def create_todos(todo : str):
 
     chain = LLMChain(llm = llm , prompt = prompt)
     response  = chain({"todo": todo})
-    """{'todo': 'have sex with my wife ', 'text': '\n    Todo Item: "Have Sex with My Wife"\n    \n    Breakdown:\n    \n      "Todo Item": "Have Sex with My Wife",\n      "Steps": [\n        {\n          "Task": "Set the Mood",\n          "Explanation": "Create a romantic atmosphere with candles, music, etc.",\n          "Approach": "Create a romantic atmosphere with candles, music, etc."\n        },\n        {\n          "Task": "Engage in Foreplay",\n          "Explanation": "Engage in activities that increase arousal and pleasure.",\n          "Approach": "Engage in activities that increase arousal and pleasure."\n        },\n        {\n          "Task": "Have Sex",\n          "Explanation": "Engage in sexual intercourse.",\n          "Approach": "Engage in sexual intercourse."\n        },\n        {\n          "Task": "Cuddle and Bond",\n          "Explanation": "Cuddle and bond with your partner after sex.",\n          "Approach": "Cuddle and bond with your partner after sex."\n        }\n      ]'}"""
-    # parse the json
-    # response = json.loads(response["text"])
 
     return response
 
-data  = create_todos("have sex with my bitch ")["text"]
+data  = create_todos("have a dinner ")["text"]
 print(type(data))
 print("---------------------")
 print(data)
