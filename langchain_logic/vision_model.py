@@ -28,7 +28,7 @@ payload = {
         "content": [
           {
             "type": "text",
-            "text": "answer the question and give me the answer step by step and explain every part of it "
+            "text": "you are a proffesional discrete math teacher and you are given a question to solve break it down into smaller problems and solve them one by one and explain the logic behind each step and give the final answer"
           },
           {
             "type": "image_url",
