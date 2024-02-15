@@ -7,5 +7,4 @@ venv/*
 langchain_logic/quotes_array.py
 langchain_logic/sequential chain.py
 langchain_logic/sequential_trial_02.py
-
-
+langchain_logic/tempDir/
